@@ -43,6 +43,7 @@
           <button class="active" data-tab="debts">الديون</button>
           <button data-tab="customers">العملاء</button>
           <button data-tab="reports">التقارير</button>
+          <button data-tab="settings">الإعدادات</button>
         </nav>
 
         <section class="panel tab-panel active" id="debts">
@@ -63,12 +64,22 @@
           </div>
         </section>
 
+        <section class="panel tab-panel" id="settings">
+          <div class="panel-head"><h2>الإعدادات</h2></div>
+          <div class="settings-actions">
+            <button id="backupBtn" type="button"><span>⇩</span><strong>حفظ البيانات</strong><small>تنزيل نسخة احتياطية من العملاء والعمليات</small></button>
+            <button id="restoreBtn" type="button"><span>⇧</span><strong>استرجاع البيانات</strong><small>استيراد نسخة احتياطية محفوظة سابقًا</small></button>
+            <button id="formatBtn" class="danger" type="button"><span>×</span><strong>فرمتة النظام</strong><small>مسح كل البيانات والبدء من جديد</small></button>
+            <input id="restoreInput" type="file" accept="application/json,.json" hidden />
+          </div>
+        </section>
+
         <footer class="bottom-nav">
           <button class="active" data-tab="debts">⌂<small>الرئيسية</small></button>
           <button data-tab="customers">👥<small>العملاء</small></button>
           <button data-open="debtModal">＋<small>دين</small></button>
           <button data-tab="reports">▥<small>التقارير</small></button>
-          <button data-open="paymentModal">▣<small>تسديد</small></button>
+          <button data-tab="settings">⚙<small>الإعدادات</small></button>
         </footer>
       </section>
     </main>

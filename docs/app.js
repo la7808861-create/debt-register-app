@@ -37,7 +37,8 @@ const els = {
   customersList: document.querySelector("#customersList"),
   reportPaid: document.querySelector("#reportPaid"),
   reportLeft: document.querySelector("#reportLeft"),
-  donut: document.querySelector("#donut")
+  donut: document.querySelector("#donut"),
+  restoreInput: document.querySelector("#restoreInput")
 };
 
 document.querySelectorAll("[data-open]").forEach((button) => {
@@ -55,6 +56,10 @@ document.querySelector("#clearSearch").addEventListener("click", () => {
 
 els.search.addEventListener("input", render);
 document.querySelector("#exportBtn").addEventListener("click", exportBackup);
+document.querySelector("#backupBtn").addEventListener("click", exportBackup);
+document.querySelector("#restoreBtn").addEventListener("click", () => els.restoreInput.click());
+document.querySelector("#formatBtn").addEventListener("click", formatSystem);
+els.restoreInput.addEventListener("change", restoreBackup);
 document.querySelector("#customerForm").addEventListener("submit", saveCustomer);
 document.querySelector("#debtForm").addEventListener("submit", (event) => saveTransaction(event, "debt"));
 document.querySelector("#paymentForm").addEventListener("submit", (event) => saveTransaction(event, "payment"));
@@ -211,4 +216,55 @@ function exportBackup() {
   link.download = `debt-register-backup-${today}.json`;
   link.click();
   URL.revokeObjectURL(url);
+}
+
+function restoreBackup(event) {
+  const file = event.target.files?.[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.addEventListener("load", () => {
+    try {
+      const importedState = JSON.parse(reader.result);
+      if (!isValidBackup(importedState)) {
+        alert("ملف النسخة الاحتياطية غير صالح");
+        return;
+      }
+
+      state = importedState;
+      saveState();
+      render();
+      alert("تم استرجاع البيانات بنجاح");
+    } catch {
+      alert("تعذر قراءة ملف النسخة الاحتياطية");
+    } finally {
+      event.target.value = "";
+    }
+  });
+  reader.readAsText(file);
+}
+
+function isValidBackup(data) {
+  return Boolean(
+    data &&
+    Array.isArray(data.customers) &&
+    Array.isArray(data.transactions) &&
+    data.customers.every((customer) => customer.id && customer.name) &&
+    data.transactions.every((transaction) =>
+      transaction.id &&
+      transaction.customerId &&
+      ["debt", "payment"].includes(transaction.type) &&
+      Number.isFinite(Number(transaction.amount))
+    )
+  );
+}
+
+function formatSystem() {
+  const confirmed = confirm("هل أنت متأكد من فرمتة النظام؟ سيتم حذف كل العملاء والديون والتسديدات.");
+  if (!confirmed) return;
+
+  state = { customers: [], transactions: [] };
+  saveState();
+  render();
+  alert("تمت فرمتة النظام بنجاح");
 }
