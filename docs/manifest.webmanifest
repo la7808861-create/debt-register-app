@@ -1,0 +1,19 @@
+{
+  "name": "سجل الديون",
+  "short_name": "سجل الديون",
+  "description": "تطبيق بسيط لإدارة العملاء والديون والمدفوعات.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f4f8fc",
+  "theme_color": "#082846",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
