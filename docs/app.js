@@ -29,6 +29,10 @@ const els = {
   totalDebt: document.querySelector("#totalDebt"),
   totalPaid: document.querySelector("#totalPaid"),
   remainingDebt: document.querySelector("#remainingDebt"),
+  debtsCount: document.querySelector("#debtsCount"),
+  paymentsCount: document.querySelector("#paymentsCount"),
+  todayDebt: document.querySelector("#todayDebt"),
+  todayPaid: document.querySelector("#todayPaid"),
   transactionsList: document.querySelector("#transactionsList"),
   customersList: document.querySelector("#customersList"),
   reportPaid: document.querySelector("#reportPaid"),
@@ -132,6 +136,10 @@ function render() {
   els.totalDebt.textContent = formatter.format(totals.debt);
   els.totalPaid.textContent = formatter.format(totals.paid);
   els.remainingDebt.textContent = formatter.format(totals.left);
+  els.debtsCount.textContent = formatter.format(totals.debtCount);
+  els.paymentsCount.textContent = formatter.format(totals.paymentCount);
+  els.todayDebt.textContent = formatter.format(totals.todayDebt);
+  els.todayPaid.textContent = formatter.format(totals.todayPaid);
   els.reportPaid.textContent = formatter.format(totals.paid);
   els.reportLeft.textContent = formatter.format(totals.left);
 
@@ -143,10 +151,18 @@ function render() {
 }
 
 function calculateTotals() {
-  const totals = { debt: 0, paid: 0, left: 0 };
+  const totals = { debt: 0, paid: 0, left: 0, debtCount: 0, paymentCount: 0, todayDebt: 0, todayPaid: 0 };
   state.transactions.forEach((transaction) => {
-    if (transaction.type === "debt") totals.debt += transaction.amount;
-    if (transaction.type === "payment") totals.paid += transaction.amount;
+    if (transaction.type === "debt") {
+      totals.debt += transaction.amount;
+      totals.debtCount += 1;
+      if (transaction.date === today) totals.todayDebt += transaction.amount;
+    }
+    if (transaction.type === "payment") {
+      totals.paid += transaction.amount;
+      totals.paymentCount += 1;
+      if (transaction.date === today) totals.todayPaid += transaction.amount;
+    }
   });
   totals.left = Math.max(0, totals.debt - totals.paid);
   return totals;
