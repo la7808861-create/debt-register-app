@@ -38,7 +38,8 @@ const els = {
   reportPaid: document.querySelector("#reportPaid"),
   reportLeft: document.querySelector("#reportLeft"),
   donut: document.querySelector("#donut"),
-  restoreInput: document.querySelector("#restoreInput")
+  restoreInput: document.querySelector("#restoreInput"),
+  settingsStatus: document.querySelector("#settingsStatus")
 };
 
 document.querySelectorAll("[data-open]").forEach((button) => {
@@ -56,9 +57,7 @@ document.querySelector("#clearSearch").addEventListener("click", () => {
 
 els.search.addEventListener("input", render);
 document.querySelector("#exportBtn").addEventListener("click", exportBackup);
-document.querySelector("#backupBtn").addEventListener("click", exportBackup);
-document.querySelector("#restoreBtn").addEventListener("click", () => els.restoreInput.click());
-document.querySelector("#formatBtn").addEventListener("click", formatSystem);
+document.addEventListener("click", handleSettingsClick);
 els.restoreInput.addEventListener("change", restoreBackup);
 document.querySelector("#customerForm").addEventListener("submit", saveCustomer);
 document.querySelector("#debtForm").addEventListener("submit", (event) => saveTransaction(event, "debt"));
@@ -214,8 +213,21 @@ function exportBackup() {
   const link = document.createElement("a");
   link.href = url;
   link.download = `debt-register-backup-${today}.json`;
+  document.body.appendChild(link);
   link.click();
+  link.remove();
   URL.revokeObjectURL(url);
+  showSettingsStatus("تم حفظ نسخة احتياطية من البيانات");
+}
+
+function handleSettingsClick(event) {
+  const button = event.target.closest("#backupBtn, #restoreBtn, #formatBtn");
+  if (!button) return;
+
+  event.preventDefault();
+  if (button.id === "backupBtn") exportBackup();
+  if (button.id === "restoreBtn") els.restoreInput.click();
+  if (button.id === "formatBtn") formatSystem();
 }
 
 function restoreBackup(event) {
@@ -234,9 +246,9 @@ function restoreBackup(event) {
       state = importedState;
       saveState();
       render();
-      alert("تم استرجاع البيانات بنجاح");
+      showSettingsStatus("تم استرجاع البيانات بنجاح");
     } catch {
-      alert("تعذر قراءة ملف النسخة الاحتياطية");
+      showSettingsStatus("تعذر قراءة ملف النسخة الاحتياطية");
     } finally {
       event.target.value = "";
     }
@@ -266,5 +278,14 @@ function formatSystem() {
   state = { customers: [], transactions: [] };
   saveState();
   render();
-  alert("تمت فرمتة النظام بنجاح");
+  showSettingsStatus("تمت فرمتة النظام بنجاح");
+}
+
+function showSettingsStatus(message) {
+  if (!els.settingsStatus) return;
+  els.settingsStatus.textContent = message;
+  window.clearTimeout(showSettingsStatus.timer);
+  showSettingsStatus.timer = window.setTimeout(() => {
+    els.settingsStatus.textContent = "";
+  }, 3500);
 }

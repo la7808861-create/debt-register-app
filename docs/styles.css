@@ -8,3 +8,4 @@
 .settings-actions small{color:var(--muted);font-size:12px;line-height:1.45}
 .settings-actions .danger{border-color:#ffd6da}
 .settings-actions .danger span{background:#fff0f1;color:var(--red)}
+.settings-status{min-height:22px;margin:2px 0 0;color:var(--green);font-size:12px;font-weight:800;text-align:center}
