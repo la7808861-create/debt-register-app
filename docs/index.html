@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>سجل الديون</title>
     <meta name="theme-color" content="#082846" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <link rel="manifest" href="manifest.webmanifest" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=2026090801" />
   </head>
   <body>
     <main class="phone-shell">
@@ -88,6 +91,6 @@
     <dialog id="customerModal"><form method="dialog" id="customerForm" class="modal-card"><h2>إضافة عميل</h2><input name="name" required placeholder="اسم العميل" /><input name="phone" placeholder="رقم الهاتف" /><textarea name="note" placeholder="ملاحظة"></textarea><menu><button value="cancel">إلغاء</button><button value="save">حفظ</button></menu></form></dialog>
     <dialog id="debtModal"><form method="dialog" id="debtForm" class="modal-card"><h2>دين جديد</h2><select name="customer" required></select><input name="amount" type="number" required min="1" placeholder="المبلغ" /><input name="date" type="date" required /><textarea name="note" placeholder="تفاصيل الدين"></textarea><menu><button value="cancel">إلغاء</button><button value="save">حفظ</button></menu></form></dialog>
     <dialog id="paymentModal"><form method="dialog" id="paymentForm" class="modal-card"><h2>تسجيل تسديد</h2><select name="customer" required></select><input name="amount" type="number" required min="1" placeholder="المبلغ المدفوع" /><input name="date" type="date" required /><textarea name="note" placeholder="ملاحظة"></textarea><menu><button value="cancel">إلغاء</button><button value="save">حفظ</button></menu></form></dialog>
-    <script src="app.js"></script>
+    <script src="app.js?v=2026090801"></script>
   </body>
 </html>
