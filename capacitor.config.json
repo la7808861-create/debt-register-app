@@ -1,0 +1,6 @@
+{
+  "appId": "com.debtregister.mobile",
+  "appName": "سجل الديون",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}

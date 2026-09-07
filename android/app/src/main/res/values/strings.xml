@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">سجل الديون</string>
+    <string name="title_activity_main">سجل الديون</string>
+    <string name="package_name">com.debtregister.mobile</string>
+    <string name="custom_url_scheme">com.debtregister.mobile</string>
+</resources>
