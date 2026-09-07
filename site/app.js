@@ -1,5 +1,8 @@
 const storeKey = "debt-register-app";
-const id = () => crypto.randomUUID();
+const id = () => {
+  if (crypto?.randomUUID) return crypto.randomUUID();
+  return `id-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+};
 
 const seedData = {
   customers: [
